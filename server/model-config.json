@@ -1,0 +1,44 @@
+{
+  "_meta": {
+    "sources": [
+      "loopback/common/models",
+      "loopback/server/models",
+      "../common/models",
+      "./models"
+    ],
+    "mixins": [
+      "loopback/common/mixins",
+      "loopback/server/mixins",
+      "../common/mixins",
+      "./mixins"
+    ]
+  },
+  "System": {
+    "dataSource": "composer",
+    "public": true
+  },
+  "PingResponse": {
+    "dataSource": "composer",
+    "public": false
+  },
+  "User": {
+    "dataSource": "composer",
+    "public": true
+  },
+  "Pharmacy": {
+    "dataSource": "composer",
+    "public": true
+  },
+  "Address": {
+    "dataSource": "composer",
+    "public": true
+  },
+  "UserPharmacy": {
+    "dataSource": "composer",
+    "public": true
+  },
+  "SampleTransaction": {
+    "dataSource": "composer",
+    "public": true
+  }
+}

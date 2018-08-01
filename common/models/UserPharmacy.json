@@ -1,0 +1,37 @@
+{
+  "name": "UserPharmacy",
+  "description": "A concept named UserPharmacy",
+  "plural": "UserPharmacy",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true,
+    "composer": {
+      "type": "concept",
+      "namespace": "io.mefy.pharmacy",
+      "name": "UserPharmacy",
+      "fqn": "io.mefy.pharmacy.UserPharmacy",
+      "abstract": false
+    }
+  },
+  "properties": {
+    "$class": {
+      "type": "string",
+      "default": "io.mefy.pharmacy.UserPharmacy",
+      "required": false,
+      "description": "The class identifier for this type"
+    },
+    "role": {
+      "type": "string",
+      "required": true
+    },
+    "pharmacyId": {
+      "type": "any",
+      "description": "The identifier of an instance of pharmacyId",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": []
+}
