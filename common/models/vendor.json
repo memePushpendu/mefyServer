@@ -21,7 +21,7 @@
       "description": "The class identifier for this type",
       "default": "io.mefy.pharmacy.Manufacturer"
     },
-    "vendorId": {
+    "gstin": {
       "type": "string",
       "id": true,
       "required": true,
@@ -40,10 +40,6 @@
       "required": true
     },
     "contactNumber": {
-      "type": "string",
-      "required": true
-    },
-    "gstin": {
       "type": "string",
       "required": true
     }
