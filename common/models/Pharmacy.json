@@ -21,7 +21,7 @@
       "required": false,
       "description": "The class identifier for this type"
     },
-    "pharmacyId": {
+    "tradeLicenseId": {
       "type": "string",
       "id": true,
       "description": "The instance identifier for this type",
