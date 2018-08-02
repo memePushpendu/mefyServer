@@ -1,37 +1,35 @@
 {
-  "name": "SampleTransaction",
-  "description": "A transaction named SampleTransaction",
-  "plural": "SampleTransaction",
+  "name": "DrugType",
+  "description": "An asset named DrugType",
+  "plural": "DrugType",
   "base": "PersistedModel",
   "idInjection": false,
   "options": {
     "validateUpsert": true,
     "composer": {
-      "type": "transaction",
+      "type": "asset",
       "namespace": "io.mefy.pharmacy",
-      "name": "SampleTransaction",
-      "fqn": "io.mefy.pharmacy.SampleTransaction",
+      "name": "DrugType",
+      "fqn": "io.mefy.pharmacy.DrugType",
       "abstract": false
     }
   },
-  "forceId": true,
   "properties": {
     "$class": {
       "type": "string",
-      "required": false,
+      "required": true,
       "description": "The class identifier for this type",
-      "default": "io.mefy.pharmacy.SampleTransaction"
+      "default": "io.mefy.pharmacy.DrugType"
     },
-    "transactionId": {
+    "typeId": {
       "type": "string",
       "id": true,
-      "generated": true,
-      "required": false,
+      "required": true,
       "description": "The instance identifier for this type"
     },
-    "timestamp": {
-      "type": "date",
-      "required": false
+    "description": {
+      "type": "string",
+      "required": true
     }
   },
   "validations": [],

@@ -1,7 +1,7 @@
 {
-  "name": "Pharmacy",
-  "description": "An asset named Pharmacy",
-  "plural": "Pharmacy",
+  "name": "MedicineMaster",
+  "description": "An asset named MedicineMaster",
+  "plural": "MedicineMaster",
   "base": "PersistedModel",
   "idInjection": false,
   "options": {
@@ -9,57 +9,78 @@
     "composer": {
       "type": "asset",
       "namespace": "io.mefy.pharmacy",
-      "name": "Pharmacy",
-      "fqn": "io.mefy.pharmacy.Pharmacy",
+      "name": "MedicineMaster",
+      "fqn": "io.mefy.pharmacy.MedicineMaster",
       "abstract": false
     }
   },
   "properties": {
     "$class": {
       "type": "string",
-      "required": false,
+      "required": true,
       "description": "The class identifier for this type",
-      "default": "io.mefy.pharmacy.Pharmacy"
+      "default": "io.mefy.pharmacy.Manufacturer"
     },
-    "tradeLicenseId": {
+    "medicineId": {
       "type": "string",
       "id": true,
       "required": true,
       "description": "The instance identifier for this type"
     },
-    "address": {
-      "type": "Address",
-      "required": false
-    },
-    "pharmacyName": {
+    "name": {
       "type": "string",
       "required": true
     },
-    "primaryContact": {
+    "form": {
       "type": "string",
       "required": true
     },
-    "alternateContact": {
-      "type": "string",
-      "required": false
-    },
-    "email": {
+    "rxname": {
       "type": "string",
       "required": true
     },
-    "gstNo": {
+    "description": {
       "type": "string",
       "required": true
     },
-    "degreeFile": {
+    "manufacturer": {
+      "type": "any",
+      "description": "The identification of the manufacturer",
+      "required": true
+    },
+    "drugtype": {
       "type": "string",
       "required": true
     },
-    "drugLicense": {
+    "condition": {
       "type": "string",
       "required": true
     },
-    "tradeLicense": {
+    "precaution": {
+      "type": "string",
+      "required": true
+    },
+    "direction": {
+      "type": "string",
+      "required": true
+    },
+    "strength": {
+      "type": "string",
+      "required": true
+    },
+    "unit": {
+      "type": "string",
+      "required": true
+    },
+    "quantity": {
+      "type": "string",
+      "required": true
+    },
+    "substitute": {
+      "type": "string",
+      "required": true
+    },
+    "gstrate": {
       "type": "string",
       "required": true
     }

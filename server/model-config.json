@@ -40,5 +40,21 @@
   "SampleTransaction": {
     "dataSource": "composer",
     "public": true
+  },
+  "Manufacturer": {
+    "dataSource": "composer",
+    "public": true
+  },
+  "Vendor": {
+    "dataSource": "composer",
+    "public": true
+  },
+  "DrugType": {
+    "dataSource": "composer",
+    "public": true
+  },
+  "MadicineMaster": {
+    "dataSource": "composer",
+    "public": true
   }
 }

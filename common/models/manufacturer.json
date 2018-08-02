@@ -1,7 +1,7 @@
 {
-  "name": "Pharmacy",
-  "description": "An asset named Pharmacy",
-  "plural": "Pharmacy",
+  "name": "Manufacturer",
+  "description": "An asset named Manufacturer",
+  "plural": "Manufacturer",
   "base": "PersistedModel",
   "idInjection": false,
   "options": {
@@ -9,57 +9,41 @@
     "composer": {
       "type": "asset",
       "namespace": "io.mefy.pharmacy",
-      "name": "Pharmacy",
-      "fqn": "io.mefy.pharmacy.Pharmacy",
+      "name": "Manufacturer",
+      "fqn": "io.mefy.pharmacy.Manufacturer",
       "abstract": false
     }
   },
   "properties": {
     "$class": {
       "type": "string",
-      "required": false,
+      "required": true,
       "description": "The class identifier for this type",
-      "default": "io.mefy.pharmacy.Pharmacy"
+      "default": "io.mefy.pharmacy.Manufacturer"
     },
-    "tradeLicenseId": {
+    "ManufacturerId": {
       "type": "string",
       "id": true,
       "required": true,
       "description": "The instance identifier for this type"
     },
+    "name": {
+      "type": "string",
+      "required": true
+    },
     "address": {
       "type": "Address",
-      "required": false
+      "required": true
     },
-    "pharmacyName": {
+    "contactName": {
       "type": "string",
       "required": true
     },
-    "primaryContact": {
+    "contactNumber": {
       "type": "string",
       "required": true
     },
-    "alternateContact": {
-      "type": "string",
-      "required": false
-    },
-    "email": {
-      "type": "string",
-      "required": true
-    },
-    "gstNo": {
-      "type": "string",
-      "required": true
-    },
-    "degreeFile": {
-      "type": "string",
-      "required": true
-    },
-    "drugLicense": {
-      "type": "string",
-      "required": true
-    },
-    "tradeLicense": {
+    "gstin": {
       "type": "string",
       "required": true
     }

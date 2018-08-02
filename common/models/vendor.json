@@ -1,38 +1,49 @@
 {
-  "name": "Address",
-  "description": "A concept named Address",
-  "plural": "Address",
+  "name": "Vendor",
+  "description": "An asset named Vendor",
+  "plural": "Vendor",
+  "base": "PersistedModel",
   "idInjection": false,
   "options": {
     "validateUpsert": true,
     "composer": {
-      "type": "concept",
+      "type": "asset",
       "namespace": "io.mefy.pharmacy",
-      "name": "Address",
-      "fqn": "io.mefy.pharmacy.Address",
+      "name": "Vendor",
+      "fqn": "io.mefy.pharmacy.Vendor",
       "abstract": false
     }
   },
   "properties": {
     "$class": {
       "type": "string",
-      "required": false,
+      "required": true,
       "description": "The class identifier for this type",
-      "default": "io.mefy.pharmacy.Address"
+      "default": "io.mefy.pharmacy.Manufacturer"
     },
-    "street": {
+    "vendorId": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "description": "The instance identifier for this type"
+    },
+    "name": {
       "type": "string",
       "required": true
     },
-    "city": {
+    "address": {
+      "type": "Address",
+      "required": true
+    },
+    "contactName": {
       "type": "string",
       "required": true
     },
-    "country": {
+    "contactNumber": {
       "type": "string",
       "required": true
     },
-    "zipcode": {
+    "gstin": {
       "type": "string",
       "required": true
     }

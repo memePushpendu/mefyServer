@@ -16,9 +16,9 @@
   "properties": {
     "$class": {
       "type": "string",
-      "default": "io.mefy.pharmacy.UserPharmacy",
       "required": false,
-      "description": "The class identifier for this type"
+      "description": "The class identifier for this type",
+      "default": "io.mefy.pharmacy.UserPharmacy"
     },
     "role": {
       "type": "string",
@@ -26,12 +26,12 @@
     },
     "pharmacyId": {
       "type": "any",
-      "description": "The identifier of an instance of pharmacyId",
-      "required": true
+      "required": true,
+      "description": "The identifier of an instance of pharmacyId"
     }
   },
   "validations": [],
   "relations": {},
   "acls": [],
-  "methods": []
+  "methods": {}
 }
