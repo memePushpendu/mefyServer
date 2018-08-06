@@ -30,13 +30,6 @@
       "id": true,
       "description": "The instance identifier for this type",
       "required": true
-    },
-    "pharmacy": {
-      "type": [
-        "UserPharmacy"
-      ],
-      "default": [],
-      "required": false
     }
   },
   "validations": [],

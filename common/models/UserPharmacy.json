@@ -1,12 +1,12 @@
 {
   "name": "UserPharmacy",
-  "description": "A concept named UserPharmacy",
+  "description": "A asset named UserPharmacy",
   "plural": "UserPharmacy",
   "idInjection": false,
   "options": {
     "validateUpsert": true,
     "composer": {
-      "type": "concept",
+      "type": "asset",
       "namespace": "io.mefy.pharmacy",
       "name": "UserPharmacy",
       "fqn": "io.mefy.pharmacy.UserPharmacy",
@@ -20,18 +20,39 @@
       "description": "The class identifier for this type",
       "default": "io.mefy.pharmacy.UserPharmacy"
     },
-    "role": {
+    "recordId": {
       "type": "string",
-      "required": true
+      "required": false,
+      "description": "Identifier for this record"
     },
-    "pharmacyId": {
+    "pharmacy": {
       "type": "any",
       "required": true,
       "description": "The identifier of an instance of pharmacyId"
+    },
+    "user": {
+      "type": "any",
+      "required": true,
+      "description": "User of the pharmacy"
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "admin",
+        "aacountant",
+        "assistant"
+      ],
+      "required": true
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "user": {
+      "type": "hasMany",
+      "model": "User",
+      "foreignKey": "user"
+    }
+  },
   "acls": [],
   "methods": {}
 }
