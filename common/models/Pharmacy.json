@@ -65,10 +65,7 @@
     }
   },
   "validations": [],
-  "relations": {
-    "userpharmacy": {
-    }
-  },
+  "relations": {},
   "acls": [],
   "methods": {}
 }

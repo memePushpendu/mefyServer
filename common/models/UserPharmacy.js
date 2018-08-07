@@ -10,8 +10,8 @@ module.exports = function (UserPharmacy) {
   /** add remote hook  **/
 
   UserPharmacy.beforeRemote('create', function (context, user, next) {
-    let userID = context.args.data.phoneNumber;
-    let pharmacy = context.args.data.tradeLicenseId;
+    let userID = context.args.data.user;
+    let pharmacy = context.args.data.pharmacy;
     context.args.data.recordId = pharmacy + '-' + userID + '-' + context.args.data.role;
     // context.args.data.date = Date.now();
     // context.args.data.publisherId = context.req.accessToken.userId;
@@ -19,7 +19,14 @@ module.exports = function (UserPharmacy) {
   });
 
   UserPharmacy.observe('loaded', function (context, next) {
-    let pharmacyID = context.data.tradeLicenseId.split("#")[1];
+    let pharmacyID;
+    if(context.data.pharmacy.includes('#')){
+       pharmacyID = context.data.pharmacy.split("#")[1];
+    }
+    else{
+       pharmacyID = context.data.pharmacy;
+    }
+  console.log('pharmacyID'+pharmacyID)
     bizNetworkConnection.connect(cardName)
       .then((result) => {
         bizNetworkConnection.getAssetRegistry('io.mefy.pharmacy.Pharmacy')
@@ -51,7 +58,7 @@ module.exports = function (UserPharmacy) {
           });
       }).catch((error) => {
         next();
-        console.log(error);
+        console.log('err'+error);
       });
   });
 
