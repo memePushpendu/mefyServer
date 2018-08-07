@@ -34,11 +34,6 @@
   },
   "validations": [],
   "relations": {
-    "userpharmacy": {
-      "type": "hasMany",
-      "model": "UserPharmacy",
-      "foreignKey": "phoneNumber"
-    }
   },
   "acls": [],
   "methods": []
