@@ -48,9 +48,14 @@
   "validations": [],
   "relations": {
     "user": {
-      "type": "hasMany",
+      "type": "belongsTo",
       "model": "User",
       "foreignKey": "user"
+    },
+    "pharmacy": {
+      "type": "belongsTo",
+      "model": "Pharmacy",
+      "foreignKey": "pharmacy"
     }
   },
   "acls": [],

@@ -65,7 +65,13 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "userpharmacy": {
+      "type": "hasMany",
+      "model": "UserPharmacy",
+      "foreignKey": "tradeLicenseId"
+    }
+  },
   "acls": [],
   "methods": {}
 }
