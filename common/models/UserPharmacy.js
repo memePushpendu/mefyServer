@@ -67,13 +67,14 @@ module.exports = function (UserPharmacy) {
     let user = "resource:io.mefy.pharmacy.User#" + phonenumber;
     UserPharmacy.find({ where: { user: user } }, function (err, pharmacies) {
       console.log(pharmacies);
-      cb(null,pharmacies);
+      cb(null, pharmacies);
     });
   }
 
   UserPharmacy.remoteMethod('byUser', {
     accepts: { arg: 'phonenumber', type: 'string' },
-    returns: { arg: 'pharmacies', type: 'any' }
+    returns: { arg: 'pharmacies', type: 'any' },
+    http: { path: '/user', verb: 'get' }
   });
 
 
