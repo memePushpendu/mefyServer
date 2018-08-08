@@ -49,8 +49,9 @@
       "required": true
     },
     "drugtype": {
-      "type": "DrugType",
-      "required": true
+      "type": "any",
+      "required": true,
+      "description": "The identifier of an instance of drugtype"
     },
     "condition": {
       "type": "string",
@@ -86,7 +87,13 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "drugtype": {
+      "type": "belongsTo",
+      "model": "DrugType",
+      "foreignKey": "drugtype"
+    }
+  },
   "acls": [],
   "methods": {}
 }
