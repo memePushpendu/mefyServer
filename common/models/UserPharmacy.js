@@ -19,21 +19,21 @@ module.exports = function (UserPharmacy) {
   });
 
   UserPharmacy.observe('loaded', function (context, next) {
+
     let pharmacyID;
-    if(context.data.pharmacy.includes('#')){
-       pharmacyID = context.data.pharmacy.split("#")[1];
+    if (context.data.pharmacy.includes('#')) {
+      pharmacyID = context.data.pharmacy.split("#")[1];
     }
-    else{
-       pharmacyID = context.data.pharmacy;
+    else {
+      pharmacyID = context.data.pharmacy;
     }
-  console.log('pharmacyID'+pharmacyID)
+
     bizNetworkConnection.connect(cardName)
       .then((result) => {
         bizNetworkConnection.getAssetRegistry('io.mefy.pharmacy.Pharmacy')
           .then((assetRegistry) => {
             return assetRegistry.get(pharmacyID);
           }).then(function (pharmacy) {
-            // pharmacy.address
             let cPharmacy = {
               "$class": "io.mefy.pharmacy.Pharmacy",
               "tradeLicenseId": pharmacy.tradeLicenseId,
@@ -58,8 +58,24 @@ module.exports = function (UserPharmacy) {
           });
       }).catch((error) => {
         next();
-        console.log('err'+error);
       });
   });
+
+
+  /** custom remote method **/
+  UserPharmacy.byUser = function (phonenumber, cb) {
+    let user = "resource:io.mefy.pharmacy.User#" + phonenumber;
+    UserPharmacy.find({ where: { user: user } }, function (err, pharmacies) {
+      console.log(pharmacies);
+      cb(null, pharmacies);
+    });
+  }
+
+  UserPharmacy.remoteMethod('byUser', {
+    accepts: { arg: 'phonenumber', type: 'string' },
+    returns: { arg: 'pharmacies', type: 'any' },
+    http: { path: '/user', verb: 'get' }
+  });
+
 
 };

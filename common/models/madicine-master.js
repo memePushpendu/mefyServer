@@ -9,19 +9,15 @@ module.exports = function(Medicinemaster) {
 
 
     Medicinemaster.observe('loaded', function (context, next) {
-        console.log(context.data)
-        let drugtype;
-        drugtype = context.data.drugtype.split("#")[1];
-      console.log('drugtype'+drugtype)
+        let drugtypeId;
+        drugtypeId = context.data.drugtype.split("#")[1];
         bizNetworkConnection.connect(cardName)
           .then((result) => {
             bizNetworkConnection.getAssetRegistry('io.mefy.pharmacy.DrugType')
               .then((assetRegistry) => {
                   console.log('asset registry',assetRegistry)
-                return assetRegistry.get(context.data.drugtype);
+                return assetRegistry.get(drugtypeId);
               }).then(function (drug) {
-                  console.log('drug',drug)
-                // pharmacy.address
                 let drugdata = {
                   "$class": "io.mefy.pharmacy.DrugType",
                   "typeId":drug.typeId,
