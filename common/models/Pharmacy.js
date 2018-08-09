@@ -15,17 +15,20 @@ module.exports = function (Pharmacy) {
 
   /** custom remote method **/
   Pharmacy.getDetails = function (pharmacy, cb) {
+
+    /** this will be final return object on response **/
     let returnObject = {
       pharmacy: {},
       users: []
     };
-    let pharmacyID = pharmacy;
-    const UserPharmacy = app.models.UserPharmacy;
+    let pharmacyID = pharmacy; // pharmacy id 
+    const UserPharmacy = app.models.UserPharmacy; // accessing user pharmacy model
     Pharmacy.find({ where: { tradeLicenseId: pharmacyID } }, function (err, pharmacyDetails) {
-      returnObject.pharmacy = pharmacyDetails[0];
+      returnObject.pharmacy = pharmacyDetails[0];  // pharmacy details without users 
       UserPharmacy.find({ where: { pharmacy: "resource:io.mefy.pharmacy.Pharmacy#" + pharmacyID }, fields: { user: true, role: true } }, function (err, users) {
-        let user = users[0].toObject().user;
-        let role = users[0].toObject().role;
+        // all the users against a pharmacy
+
+        //append those users to return objects
         joinUsers(users)
           .then(function (data) {
             returnObject.users = data;
