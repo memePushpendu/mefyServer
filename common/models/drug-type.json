@@ -23,11 +23,14 @@
     },
     "typeId": {
       "type": "string",
-      "id": true,
-      "required": true,
-      "description": "The instance identifier for this type"
+      "required": false,
+      "description": "Identifier for this record"
     },
     "description": {
+      "type": "string",
+      "required": true
+    },
+    "type": {
       "type": "string",
       "required": true
     }
