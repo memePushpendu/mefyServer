@@ -2,6 +2,7 @@
   "name": "UserPharmacy",
   "description": "A asset named UserPharmacy",
   "plural": "UserPharmacy",
+  "base": "PersistedModel",
   "idInjection": false,
   "options": {
     "validateUpsert": true,
