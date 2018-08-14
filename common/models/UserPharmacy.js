@@ -3,6 +3,7 @@ const Composer = require('../lib/composer.js');
 const BusinessNetworkConnection = require('composer-client').BusinessNetworkConnection;
 const bizNetworkConnection = new BusinessNetworkConnection();
 const cardName = "admin@mefy";
+var app = require('../../server/server');
 
 module.exports = function (UserPharmacy) {
   // Composer.restrictModelMethods(UserPharmacy);
@@ -28,37 +29,15 @@ module.exports = function (UserPharmacy) {
       pharmacyID = context.data.pharmacy;
     }
 
-    bizNetworkConnection.connect(cardName)
-      .then((result) => {
-        bizNetworkConnection.getAssetRegistry('io.mefy.pharmacy.Pharmacy')
-          .then((assetRegistry) => {
-            return assetRegistry.get(pharmacyID);
-          }).then(function (pharmacy) {
-            let cPharmacy = {
-              "$class": "io.mefy.pharmacy.Pharmacy",
-              "tradeLicenseId": pharmacy.tradeLicenseId,
-              "address": {
-                "$class": "io.mefy.pharmacy.Address",
-                "street": pharmacy.address.street,
-                "city": pharmacy.address.city,
-                "country": pharmacy.address.country,
-                "zipcode": pharmacy.address.zipcode,
-              },
-              "pharmacyName": pharmacy.pharmacyName,
-              "primaryContact": pharmacy.primaryContact,
-              "alternateContact": pharmacy.alternateContact,
-              "email": pharmacy.email,
-              "gstNo": pharmacy.gstNo,
-              "degreeFile": pharmacy.degreeFile,
-              "drugLicense": pharmacy.drugLicense,
-              "tradeLicense": pharmacy.tradeLicense
-            }
-            context.data.pharmacy = cPharmacy;
-            next();
-          });
-      }).catch((error) => {
-        next();
-      });
+    console.log(pharmacyID);
+    const Pharmacy = app.models.Pharmacy;
+
+    Pharmacy.find({ where: { tradeLicenseId: pharmacyID } }, function (err, pharmacies) {
+      console.log(pharmacies);
+      context.data.pharmacy = pharmacies;
+      next();
+    });
+
   });
 
 
