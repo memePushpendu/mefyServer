@@ -78,4 +78,20 @@ module.exports = function (UserPharmacy) {
   });
 
 
+  /** count user pharmacy **/
+  /** custom remote method **/
+  UserPharmacy.countByUser = function (phonenumber, cb) {
+    let user = "resource:io.mefy.pharmacy.User#" + phonenumber;
+    UserPharmacy.find({ where: { user: user } }, function (err, pharmacies) {
+      cb(null, pharmacies.length);
+    });
+  }
+
+  UserPharmacy.remoteMethod('countByUser', {
+    accepts: { arg: 'phonenumber', type: 'string' },
+    returns: { arg: 'count', type: 'any' },
+    http: { path: '/countbyuser', verb: 'get' }
+  });
+
+
 };
