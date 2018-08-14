@@ -92,8 +92,14 @@
       "type": "belongsTo",
       "model": "DrugType",
       "foreignKey": "drugtype"
-    }
-  },
+    },
+      "manufacturer": {
+        "type": "belongsTo",
+        "model": "Manufacturer",
+        "foreignKey": "manufacturer"
+      
+  }
+},
   "acls": [],
   "methods": {}
 }
