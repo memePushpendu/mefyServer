@@ -23,19 +23,28 @@ module.exports = function (Pharmacy) {
     };
     let pharmacyID = pharmacy; // pharmacy id 
     const UserPharmacy = app.models.UserPharmacy; // accessing user pharmacy model
-    Pharmacy.find({ where: { tradeLicenseId: pharmacyID } }, function (err, pharmacyDetails) {
-      returnObject.pharmacy = pharmacyDetails[0];  // pharmacy details without users 
-      UserPharmacy.find({ where: { pharmacy: "resource:io.mefy.pharmacy.Pharmacy#" + pharmacyID }, fields: { user: true, role: true } }, function (err, users) {
-        // all the users against a pharmacy
+    Pharmacy.exists(pharmacyID, function (err, exists) {
+      if (exists) {
+        Pharmacy.find({ where: { tradeLicenseId: pharmacyID } }, function (err, pharmacyDetails) {
+          returnObject.pharmacy = pharmacyDetails[0];  // pharmacy details without users 
+          UserPharmacy.find({ where: { pharmacy: "resource:io.mefy.pharmacy.Pharmacy#" + pharmacyID }, fields: { user: true, role: true } }, function (err, users) {
+            // all the users against a pharmacy
 
-        //append those users to return objects
-        joinUsers(users)
-          .then(function (data) {
-            returnObject.users = data;
-            cb(null, returnObject);
+            //append those users to return objects
+            joinUsers(users)
+              .then(function (data) {
+                returnObject.users = data;
+                cb(null, returnObject);
+              });
           });
-      });
-    });
+        });
+      }
+      else {
+        let err = 'Pharmacy with tradelicenseid doesnot exists !';
+        cb(null, err);
+      }
+    })
+
   }
 
   /**************************************************************************************************/
