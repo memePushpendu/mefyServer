@@ -21,10 +21,10 @@
       "description": "The class identifier for this type",
       "default": "io.mefy.pharmacy.MedicineMaster"
     },
-    "medicineId": {
+    "recordID": {
       "type": "string",
       "id": true,
-      "required": true,
+      "required": false,
       "description": "The instance identifier for this type"
     },
     "name": {
