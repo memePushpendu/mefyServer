@@ -19,7 +19,7 @@
       "type": "string",
       "required": true,
       "description": "The class identifier for this type",
-      "default": "io.mefy.pharmacy.Manufacturer"
+      "default": "io.mefy.pharmacy.Vendor"
     },
     "gstin": {
       "type": "string",
