@@ -21,7 +21,7 @@
       "description": "The class identifier for this type",
       "default": "io.mefy.pharmacy.MedicineMaster"
     },
-    "recordID": {
+    "medicineId": {
       "type": "string",
       "id": true,
       "required": false,
@@ -78,8 +78,9 @@
       "required": true
     },
     "substitute": {
-      "type": "string",
-      "required": true
+    
+      "type": ["string"],
+      "required": false
     },
     "gstrate": {
       "type": "string",
@@ -98,8 +99,13 @@
         "model": "Manufacturer",
         "foreignKey": "manufacturer"
       
-  }
-},
+  },
+  "substitute": {
+    "type": "belongsTo",
+    "model": "Medicinemaster",
+    "foreignKey": "Medicinemaster"
+}
+  },
   "acls": [],
   "methods": {}
 }
