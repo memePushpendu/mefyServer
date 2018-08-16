@@ -7,6 +7,67 @@ var app = require('../../server/server');
 
 module.exports = function (Medicinemaster) {
 
+
+  /** generate medicine id */
+  Medicinemaster.beforeRemote('create', function (context, user, next) {
+    const Manufacturer = app.models.Manufacturer;
+    let date = new Date();
+    var milliSeconds = Date.parse(date);
+    let responsedata;
+    Manufacturer.exists(context.args.data.manufacturer, function (err, exists) {
+      if (exists) {
+        if (context.args.data.rxname.includes(' ')) {
+          responsedata = context.args.data.manufacturer + '-' + context.args.data.rxname.replace(/ +/g, "") + '-' + milliSeconds;
+        }
+        else {
+          responsedata = context.args.data.manufacturer + '-' + context.args.data.rxname + '-' + milliSeconds;
+        }
+        context.args.data.medicineId = responsedata;
+        next();
+      }
+      else {
+        next();
+      }
+    })
+  })
+
+  /*** */
+
+
+  // /****************** AUTO INCREMENTING MEDICINE ID *****************************************************/
+  // Medicinemaster.observe('before save', function (ctx, next) {
+
+  //   console.log('9999 :::::', ctx.instance)
+  //   // if (!ctx.isNewInstance) {
+  //   //   debug('id is already set, returning', ctx.data);
+  //   //   return next();
+  //   // }
+
+  //   Medicinemaster.findOrCreate({ where: { medicineId: '56' } }, { $inc: { value: 1 } }).then(function (instance) {
+  //     //here instance is an array, first element the instance, second element created flag
+  //     console.log('+++++++++line21::', instance)
+  //   })
+  //     .catch(function (err) {
+  //       console.log('line 24::', err)
+  //     });
+
+
+  //   // [['_id', 'asc']], { $inc: { value: 1 } }, { new: true }, function (err, rec) {
+  //   //   if (err) {
+  //   //     console.err(err);
+  //   //   } else {
+  //   //     if (ctx.instance) {
+  //   //       ctx.instance.id = rec.value.value;
+  //   //     } else {
+  //   //       ctx.data.id = rec.value.value;
+  //   //     }
+  //   //   }
+  //   //   next();
+  //   // });
+  // });
+  // /*************************************************************************************************** */
+
+
   /** SHOW DETAILS OF DRUG AND MANUFACTURER WHILE GETTING MEDICINE MASTER LIST */
   Medicinemaster.observe('loaded', function (context, next) {
     let drugtypeId;
@@ -26,9 +87,9 @@ module.exports = function (Medicinemaster) {
       manufGstNo = context.data.manufacturer;
     }
     /** FETCHING DRUGS DETIAL */
-    console.log('type id', drugtypeId)
+
     DrugType.find({ where: { typeId: drugtypeId } }, function (err, drugs) {
-      console.log('+++++++++', drugs + '++++++')
+
       let drugdata = {
         "$class": "io.mefy.pharmacy.DrugType",
         "typeId": drugs[0].typeId,
@@ -36,10 +97,10 @@ module.exports = function (Medicinemaster) {
         "description": drugs[0].description
       }
       context.data.drugtype = drugdata;
-      console.log('manufacturer id', manufGstNo)
+
       /** FETCHING MANUFACTURER DETAILS */
       Manufacturer.find({ where: { gstin: manufGstNo } }, function (err, manufacturer) {
-        console.log('-------', manufacturer, '---------')
+
         if (manufacturer.length != 0) {
           let manufdata = {
             "$class": "io.mefy.pharmacy.Manufacturer",
