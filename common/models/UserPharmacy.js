@@ -13,12 +13,65 @@ module.exports = function (UserPharmacy) {
   UserPharmacy.beforeRemote('create', function (context, user, next) {
     let userID = context.args.data.user;
     let pharmacy = context.args.data.pharmacy;
-    context.args.data.recordId = pharmacy + '-' + userID + '-' + context.args.data.role;
+// CHEKING USER EXISTENCE 
+    checkUser(context.args.data.user).then(function (result) {
+ //CHECKING PHARMACY EXISTENCE
+      checkPharma(context.args.data.pharmacy).then(function (result) {
+   // CREATE RECORDID IF USER AND PHARMA EXIST
+        context.args.data.recordId = pharmacy + '-' + userID + '-' + context.args.data.role;
+        next();
+      })
+        // THROW ERROR
+        .catch(function (err) {
+          var err = new Error(err);
+          err.statusCode = 404;
+          next(err);
+        })
+
+    })
+      // THROW ERROR
+      .catch(function (err) {
+        var err = new Error(err);
+        err.statusCode = 404;
+        next(err);
+      })
     // context.args.data.date = Date.now();
     // context.args.data.publisherId = context.req.accessToken.userId;
-    next();
+
   });
 
+  // CHECK USER EXIST OR NOT
+  function checkUser(user) {
+    const User = app.models.User;
+    return new Promise((resolve, reject) => {
+      User.exists(user, function (err, exists) {
+        if (exists) {
+          resolve(true);
+        }
+        else {
+          reject('USER DOESNOT EXISTS!');
+        }
+      })
+    })
+  }
+
+  // CHECK EXISTENCE OF PHARMACY
+  function checkPharma(pharma) {
+    const Pharmacy = app.models.Pharmacy;
+    return new Promise((resolve, reject) => {
+      Pharmacy.exists(pharma, function (err, exists) {
+        if (exists) {
+          resolve(true);
+        }
+        else {
+          reject('PHARMACY DOESNOT EXISTS!');
+        }
+      })
+    })
+  }
+
+
+  /** INSERT PHARMACY DATA*/
   UserPharmacy.observe('loaded', function (context, next) {
 
     let pharmacyID;
