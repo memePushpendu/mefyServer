@@ -10,28 +10,70 @@ module.exports = function (Medicinemaster) {
 
   /** generate medicine id */
   Medicinemaster.beforeRemote('create', function (context, user, next) {
-    const Manufacturer = app.models.Manufacturer;
     let date = new Date();
     var milliSeconds = Date.parse(date);
     let responsedata;
-    Manufacturer.exists(context.args.data.manufacturer, function (err, exists) {
-      if (exists) {
-        if (context.args.data.rxname.includes(' ')) {
-          responsedata = context.args.data.manufacturer + '-' + context.args.data.rxname.replace(/ +/g, "") + '-' + milliSeconds;
-        }
-        else {
-          responsedata = context.args.data.manufacturer + '-' + context.args.data.rxname + '-' + milliSeconds;
-        }
-        context.args.data.medicineId = responsedata;
+    //  PROMISE FOR DRUG TYPE CHECKING
+    checkdrug(context.args.data.drugtype).then(function (result) {
+      // PROMISE FOR MANUFACTURER CHECKING
+      checkmanuf(context.args.data.manufacturer).then(function (response) {
+        console.log('both exists')
+        // GENERATING MEDICINE ID IF DRUG AND MANUFACTURER EXIST
+        context.args.data.medicineId = context.args.data.manufacturer + '-' + ((context.args.data.rxname.includes(' ')) ? (context.args.data.rxname.replace(/ +/g, "")) : (context.args.data.rxname)) + '-' + milliSeconds;
         next();
-      }
-      else {
-        next();
-      }
+      })
+        // THROWING ERROR
+        .catch(function (err) {
+          var err = new Error(err);
+          err.statusCode = 404;
+          next(err);
+        })
     })
+      // THROWING ERROR
+      .catch(function (err) {
+        var err = new Error(err);
+        err.statusCode = 404;
+        next(err);
+      })
+
   })
 
-  /*** */
+  /*********************************************************************** */
+
+  /***CHECK THE EXISTENCE OF THAT DRUG TYPE */
+  function checkdrug(drug) {
+    const DrugType = app.models.DrugType;
+    return new Promise((resolve, reject) => {
+      DrugType.find({ where: { typeId: drug } }, function (err, exists) {
+
+        if (exists.length != 0) {
+          resolve(true);
+        }
+        else {
+          reject('DRUG TYPE WITH THIS ID DOESNOT EXISTS!');
+        }
+      })
+    })
+
+  }
+
+  /**CHECK THE EXISTENCE OF MANUFACTURER */
+  function checkmanuf(manuf) {
+    const Manufacturer = app.models.Manufacturer;
+    return new Promise((resolve, reject) => {
+      Manufacturer.exists(manuf, function (err, exists) {
+
+        if (exists) {
+          resolve(true);
+        }
+        else {
+          reject('MANUFACTURER  WITH THIS ID DOESNOT EXISTS!');
+        }
+      })
+    })
+
+  }
+
 
 
   // /****************** AUTO INCREMENTING MEDICINE ID *****************************************************/
@@ -123,26 +165,6 @@ module.exports = function (Medicinemaster) {
       })
     });
 
-
-    // bizNetworkConnection.connect(cardName)
-    //   .then((result) => {
-    //     bizNetworkConnection.getAssetRegistry('io.mefy.pharmacy.DrugType')
-    //       .then((assetRegistry) => {
-    //         return assetRegistry.get(drugtypeId);
-    //       }).then(function (drug) {
-    //         let drugdata = {
-    //           "$class": "io.mefy.pharmacy.DrugType",
-    //           "typeId": drug.typeId,
-    //           "type": drug.type,
-    //           "description": drug.description
-    //         }
-    //         context.data.drugtype = drugdata;
-    //         next();
-    //       });
-    //   }).catch((error) => {
-    //     next();
-    //     console.log('err' + error);
-    //   });
   });
 
   /** */
