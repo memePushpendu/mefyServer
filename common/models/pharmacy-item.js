@@ -101,9 +101,7 @@ module.exports = function (Pharmacyitem) {
                     "rxname": medicine[0].rxname,
                     "description": medicine[0].description,
                     "manufacturer": (medicine[0].manufacturer),
-
                     "drugtype": (medicine[0].drugtype),
-
                     "condition": medicine[0].condition,
                     "precaution": medicine[0].precaution,
                     "direction": medicine[0].direction,
@@ -114,12 +112,11 @@ module.exports = function (Pharmacyitem) {
                     "gstrate": medicine[0].gstrate
                     // }
                 }
-                context.data.medicineId = medicineData;
+                context.data.medicineId = medicine[0];
                 next();
-
             });
 
-        })
+        });
 
         // pharmaInfo(context.data.pharmacyId.includes('#') ? context.data.pharmacyId.split('#')[1] : context.data.pharmacyId).then(function (response) {
         //     context.data.pharmacyId = response;
