@@ -56,5 +56,9 @@
   "MedicineMaster": {
     "dataSource": "composer",
     "public": true
+  },
+  "PharmacyItem": {
+    "dataSource": "composer",
+    "public": false
   }
 }

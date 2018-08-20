@@ -38,12 +38,12 @@
     },
     "role": {
       "type": "string",
+      "required": true,
       "enum": [
         "admin",
         "aacountant",
         "assistant"
-      ],
-      "required": true
+      ]
     }
   },
   "validations": [],

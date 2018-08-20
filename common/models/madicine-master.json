@@ -45,8 +45,8 @@
     },
     "manufacturer": {
       "type": "any",
-      "description": "The identification of the manufacturer",
-      "required": true
+      "required": true,
+      "description": "The identification of the manufacturer"
     },
     "drugtype": {
       "type": "any",
@@ -78,8 +78,9 @@
       "required": true
     },
     "substitute": {
-    
-      "type": ["string"],
+      "type": [
+        "string"
+      ],
       "required": false
     },
     "gstrate": {
@@ -94,17 +95,16 @@
       "model": "DrugType",
       "foreignKey": "drugtype"
     },
-      "manufacturer": {
-        "type": "belongsTo",
-        "model": "Manufacturer",
-        "foreignKey": "manufacturer"
-      
-  },
-  "substitute": {
-    "type": "belongsTo",
-    "model": "Medicinemaster",
-    "foreignKey": "Medicinemaster"
-}
+    "manufacturer": {
+      "type": "belongsTo",
+      "model": "Manufacturer",
+      "foreignKey": "manufacturer"
+    },
+    "substitute": {
+      "type": "belongsTo",
+      "model": "Medicinemaster",
+      "foreignKey": "Medicinemaster"
+    }
   },
   "acls": [],
   "methods": {}
