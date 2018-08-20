@@ -100,7 +100,7 @@ module.exports = function (Pharmacyitem) {
                     "form": medicine[0].form,
                     "rxname": medicine[0].rxname,
                     "description": medicine[0].description,
-                    "manufacturer": (medicine[0].manufacturer).toObject(),
+                    "manufacturer": (medicine[0].manufacturer),
 
                     "drugtype": (medicine[0].drugtype),
 
