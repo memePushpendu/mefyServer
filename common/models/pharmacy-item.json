@@ -3,7 +3,7 @@
   "base": "PersistedModel",
   "description": "An asset named PharmacyItem",
   "plural": "PharmacyItem",
-  "idInjection": true,
+  "idInjection": false,
   "options": {
     "validateUpsert": true,
     "composer": {
@@ -24,7 +24,7 @@
     },
     "itemId": {                                                    
       "type": "string",
-      "required": true,
+      "required": false,
       "id": true,
       "description": "The instance identifier for this type"
     },
