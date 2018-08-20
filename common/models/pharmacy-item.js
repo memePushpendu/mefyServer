@@ -58,4 +58,109 @@ module.exports = function (Pharmacyitem) {
             })
         })
     }
+
+    /** SHOW MEDICINEID AND PHARMACYDATA ON GETTING LIST */
+    Pharmacyitem.observe('loaded', function (context, next) {
+        //  FETCH PHARMACY DETAILS   
+        pharmaInfo(context.data.pharmacyId.includes('#') ? context.data.pharmacyId.split('#')[1] : context.data.pharmacyId).then(function (response) {
+            context.data.pharmacyId = response;
+            medicineInfo(context.data.medicineId.includes('#') ? context.data.medicineId.split('#')[1] : context.data.medicineId).then(function (response) {
+                console.log(response)
+                context.data.medicineId = response;
+                next();
+            }).catch(function (err) {
+                var err = new Error(err);
+                err.statusCode = 404;
+                next(err);
+            })
+
+        }).catch(function (err) {
+            var err = new Error(err);
+            err.statusCode = 404;
+            next(err);
+        })
+       
+
+    });
+
+
+    /************************************************* */
+
+    //    GET PHARMA DATA
+    function pharmaInfo(pharma) {
+        console.log('vlvvvv',pharma)
+        const Pharmacy = app.models.Pharmacy;
+        return new Promise((resolve, reject) => {
+            Pharmacy.find({ where: { tradeLicenseId: pharma } }, function (err, pharmacy) {
+                console.log('lkx', pharmacy)
+                if (pharmacy.length != 0) {
+                    let pharmaData = {
+                        "$class": "io.mefy.pharmacy.Pharmacy",
+                        "tradeLicenseId": pharmacy[0].tradeLicenseId,
+                        "address": {
+                            "$class": "io.mefy.pharmacy.Address",
+                            "street": pharmacy[0].address.street,
+                            "city": pharmacy[0].address.city,
+                            "country": pharmacy[0].address.country,
+                            "zipcode": pharmacy[0].address.zipcode
+                        },
+                        "pharmacyName": pharmacy[0].pharmacyName,
+                        "primaryContact": pharmacy[0].primaryContact,
+                        "alternateContact": pharmacy[0].alternateContact,
+                        "email": pharmacy[0].email,
+                        "gstNo": pharmacy[0].gstNo,
+                        "degreeFile": pharmacy[0].degreeFile,
+                        "drugLicense": pharmacy[0].drugLicense,
+                        "tradeLicense": pharmacy[0].tradeLicense
+                    }
+
+                    resolve(pharmaData)
+                }
+                else { reject('fgjfngk') }
+            })
+        })
+
+    };
+
+    //MEDIICNE INFO
+    function medicineInfo(med) {
+        console.log('dedwded',med)
+        const MedicineMaster = app.models.MedicineMaster;
+        return new Promise((resolve, reject) => {
+            MedicineMaster.find({ where: { medicineId: med } }, function (err, medicine) {
+                console.log('!!!', medicine);
+
+                if (medicine.length != 0) {
+                    console.log(JSON.parse(medicine[0].drugtype))
+                    let medicineData = {
+                        "$class": "io.mefy.pharmacy.MedicineMaster",
+                        "medicineId": medicine[0].medicineId,
+                        "name": medicine[0].name,
+                        "form": medicine[0].form,
+                        "rxname": medicine[0].rxname,
+                        "description": medicine[0].description,
+                        "manufacturer": medicine[0].manufacturer,
+
+                        "drugtype": medicine[0].drugtype,
+
+                        "condition": medicine[0].condition,
+                        "precaution": medicine[0].precaution,
+                        "direction": medicine[0].direction,
+                        "strength": medicine[0].strength,
+                        "unit": medicine[0].unit,
+                        "quantity": medicine[0].quantity,
+                        "substitute": medicine[0].substitute,
+                        "gstrate": medicine[0].gstrate
+                    }
+                    resolve(medicineData);
+                } else {
+                    reject('fjgkfbnjkk')
+                }
+
+
+            });
+        })
+    };
+
+
 };
