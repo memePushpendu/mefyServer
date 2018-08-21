@@ -112,55 +112,21 @@ module.exports = function (Medicinemaster) {
 
   /** SHOW DETAILS OF DRUG AND MANUFACTURER WHILE GETTING MEDICINE MASTER LIST */
   Medicinemaster.observe('loaded', function (context, next) {
-    let drugtypeId;
-    let manufGstNo;
     const DrugType = app.models.DrugType;
     const Manufacturer = app.models.Manufacturer;
-    if (context.data.drugtype.includes('#')) {
-      drugtypeId = context.data.drugtype.split("#")[1];
-    }
-    else {
-      drugtypeId = context.data.drugtype;
-    }
-    if (context.data.manufacturer.includes('#')) {
-      manufGstNo = context.data.manufacturer.split('#')[1];
-    }
-    else {
-      manufGstNo = context.data.manufacturer;
-    }
+
     /** FETCHING DRUGS DETIAL */
-
-    DrugType.find({ where: { typeId: drugtypeId } }, function (err, drugs) {
-
-      let drugdata = {
-        "$class": "io.mefy.pharmacy.DrugType",
-        "typeId": drugs[0].typeId,
-        "type": drugs[0].type,
-        "description": drugs[0].description
-      }
-      context.data.drugtype = drugdata;
-
+    DrugType.find({ where: { typeId: context.data.drugtype.includes('#') ? context.data.drugtype.split('#')[1] : context.data.DrugType } }, function (err, drugs) {
+      context.data.drugtype = drugs[0];
       /** FETCHING MANUFACTURER DETAILS */
-      Manufacturer.find({ where: { gstin: manufGstNo } }, function (err, manufacturer) {
-
-        if (manufacturer.length != 0) {
-          let manufdata = {
-            "$class": "io.mefy.pharmacy.Manufacturer",
-            "gstin": manufacturer[0].gstin,
-            "name": manufacturer[0].name,
-            "address": {
-              "$class": "io.mefy.pharmacy.Address",
-              "street": manufacturer[0].address.street,
-              "city": manufacturer[0].address.city,
-              "country": manufacturer[0].address.country,
-              "zipcode": manufacturer[0].address.zipcode
-            },
-            "contactName": manufacturer[0].contactName,
-            "contactNumber": manufacturer[0].contactNumber
-          }
-          context.data.manufacturer = manufdata;
-        }
-
+      Manufacturer.find({ where: { gstin: context.data.manufacturer.includes('#') ? context.data.manufacturer.split('#')[1] : context.data.manufacturer } }, function (err, manufacturer) {
+        context.data.manufacturer = manufacturer[0];
+        // console.log(context.data.substitute)
+//         for (const subs of manufacturer[0].substitute) {
+//           Medicinemaster.find({ where: { medicineId: subs.split('#')[1] } }, function (err, instances) {
+// console.log(instances);
+//           })
+//         }
         next();
       })
     });
