@@ -122,11 +122,11 @@ module.exports = function (Medicinemaster) {
       Manufacturer.find({ where: { gstin: context.data.manufacturer.includes('#') ? context.data.manufacturer.split('#')[1] : context.data.manufacturer } }, function (err, manufacturer) {
         context.data.manufacturer = manufacturer[0];
         // console.log(context.data.substitute)
-//         for (const subs of manufacturer[0].substitute) {
-//           Medicinemaster.find({ where: { medicineId: subs.split('#')[1] } }, function (err, instances) {
-// console.log(instances);
-//           })
-//         }
+        //         for (const subs of manufacturer[0].substitute) {
+        //           Medicinemaster.find({ where: { medicineId: subs.split('#')[1] } }, function (err, instances) {
+        // console.log(instances);
+        //           })
+        //         }
         next();
       })
     });
@@ -134,5 +134,42 @@ module.exports = function (Medicinemaster) {
   });
 
   /** */
+  async function ProcessArray(array) {
+    console.log('INSIDE PROCESS ARRAY', array)
+    let x;
+    for (const subs of array) {
+      console.log(subs)
+      await logs(subs);
+      console.log('AFTER PROCESS ARRAY AWAIT')
+      x.push(a)
+      return x;
+    }
 
+  }
+
+  async function logs(item) {
+    console.log('INSIDE LOGS FUNCTION', item);
+
+    await Medicinemaster.find({ where: { medicineId: item.split('#')[1] } }, function (err, medicine) {
+      console.log('INSIDE MEDICINE FIND METHOD', medicine)
+      return (medicine)
+      // resolve('jyotijyoti');
+    })
+    // await substitutedata(item);
+    console.log('AFTER LOGS FUNCTION')
+  }
+
+
+  async function substitutedata(item) {
+    console.log('INSIDE SUBSTITIUE FUNCTION', item.split('#')[1])
+
+    // return new Promise((resolve) => {
+    // resolve('lllllllllllllllllllllllll')
+    Medicinemaster.find({ where: { medicineId: item.split('#')[1] } }, function (err, medicine) {
+      console.log('INSIDE MEDICINE FIND METHOD', medicine)
+      return (medicine)
+      // resolve('jyotijyoti');
+    })
+    // })
+  }
 };

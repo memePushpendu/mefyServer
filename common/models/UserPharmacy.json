@@ -41,7 +41,7 @@
       "required": true,
       "enum": [
         "admin",
-        "aacountant",
+        "accountant",
         "assistant"
       ]
     }
