@@ -13,11 +13,11 @@ module.exports = function (UserPharmacy) {
   UserPharmacy.beforeRemote('create', function (context, user, next) {
     let userID = context.args.data.user;
     let pharmacy = context.args.data.pharmacy;
-// CHEKING USER EXISTENCE 
+    // CHEKING USER EXISTENCE 
     checkUser(context.args.data.user).then(function (result) {
- //CHECKING PHARMACY EXISTENCE
+      //CHECKING PHARMACY EXISTENCE
       checkPharma(context.args.data.pharmacy).then(function (result) {
-   // CREATE RECORDID IF USER AND PHARMA EXIST
+        // CREATE RECORDID IF USER AND PHARMA EXIST
         context.args.data.recordId = pharmacy + '-' + userID + '-' + context.args.data.role;
         next();
       })
@@ -73,22 +73,17 @@ module.exports = function (UserPharmacy) {
 
   /** INSERT PHARMACY DATA*/
   UserPharmacy.observe('loaded', function (context, next) {
-
-    let pharmacyID;
-    if (context.data.pharmacy.includes('#')) {
-      pharmacyID = context.data.pharmacy.split("#")[1];
-    }
-    else {
-      pharmacyID = context.data.pharmacy;
-    }
-
-    console.log(pharmacyID);
     const Pharmacy = app.models.Pharmacy;
+    const User = app.models.User;
+    // FETCH PHARMACY DETAILS
+    Pharmacy.find({ where: { tradeLicenseId: context.data.pharmacy.includes('#') ? context.data.pharmacy.split("#")[1] : context.data.pharmacy } }, function (err, pharmacies) {
+      context.data.pharmacy = pharmacies[0];
+      //  FETCH USER DETAIL 
+      User.find({ where: { phoneNumber: context.data.user.includes('#') ? context.data.user.split("#")[1] : context.data.user } }, function (err, users) {
+        context.data.user = users[0];
+        next();
+      })
 
-    Pharmacy.find({ where: { tradeLicenseId: pharmacyID } }, function (err, pharmacies) {
-      console.log(pharmacies);
-      context.data.pharmacy = pharmacies;
-      next();
     });
 
   });
