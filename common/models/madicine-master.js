@@ -120,14 +120,27 @@ module.exports = function (Medicinemaster) {
       context.data.drugtype = drugs[0];
       /** FETCHING MANUFACTURER DETAILS */
       Manufacturer.find({ where: { gstin: context.data.manufacturer.includes('#') ? context.data.manufacturer.split('#')[1] : context.data.manufacturer } }, function (err, manufacturer) {
+        // console.log('context data',manufacturer[0])
         context.data.manufacturer = manufacturer[0];
-        // console.log(context.data.substitute)
-        //         for (const subs of manufacturer[0].substitute) {
-        //           Medicinemaster.find({ where: { medicineId: subs.split('#')[1] } }, function (err, instances) {
-        // console.log(instances);
-        //           })
-        //         }
-        next();
+        if (context.data.substitute) {
+          //FETCH SUBSTITUTES DETAILS OF EACH MEDICINE      
+          ProcessArray(context.data.substitute).then(users => {
+            // console.log('VALUE OF PROCESS ARRAY', JSON.stringify(users[0]));
+            delete context.data['substitute'];
+            context.data.substitutes = users;
+            next();
+          })
+            .catch(err => {
+              var err = new Error('PROBLEM IN FETCHING DATA');
+              err.statusCode = 500;
+              next(err);
+            })
+
+        }
+        else {
+          next();
+        }
+
       })
     });
 
@@ -135,41 +148,30 @@ module.exports = function (Medicinemaster) {
 
   /** */
   async function ProcessArray(array) {
-    console.log('INSIDE PROCESS ARRAY', array)
-    let x;
+    // console.log('INSIDE PROCESS ARRAY', array)
+    const x = [];
     for (const subs of array) {
-      console.log(subs)
-      await logs(subs);
-      console.log('AFTER PROCESS ARRAY AWAIT')
-      x.push(a)
-      return x;
+      // console.log('substitute data',subs)
+      await Promise.all([substitutedata(subs)]).then(function (values) {
+        // console.log('RETUNED VALUESSSS',values);
+        x.push(values[0]);
+        // console.log('ARRAY PUSHED METHOD',x)
+
+      });
     }
-
+    return x;
   }
 
-  async function logs(item) {
-    console.log('INSIDE LOGS FUNCTION', item);
 
-    await Medicinemaster.find({ where: { medicineId: item.split('#')[1] } }, function (err, medicine) {
-      console.log('INSIDE MEDICINE FIND METHOD', medicine)
-      return (medicine)
-      // resolve('jyotijyoti');
-    })
-    // await substitutedata(item);
-    console.log('AFTER LOGS FUNCTION')
-  }
 
 
   async function substitutedata(item) {
-    console.log('INSIDE SUBSTITIUE FUNCTION', item.split('#')[1])
-
-    // return new Promise((resolve) => {
-    // resolve('lllllllllllllllllllllllll')
-    Medicinemaster.find({ where: { medicineId: item.split('#')[1] } }, function (err, medicine) {
-      console.log('INSIDE MEDICINE FIND METHOD', medicine)
-      return (medicine)
-      // resolve('jyotijyoti');
+    // console.log('INSIDE SUBSTITIUE FUNCTION', item.split('#')[1])
+    return new Promise((resolve) => {
+      Medicinemaster.find({ where: { medicineId: item.split('#')[1] } }, function (err, medicine) {
+        // console.log('INSIDE MEDICINE FIND METHOD', medicine[0])
+        resolve(medicine[0]);
+      })
     })
-    // })
   }
 };
