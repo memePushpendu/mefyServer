@@ -30,6 +30,8 @@ module.exports = function (Pharmacy) {
           UserPharmacy.find({ where: { pharmacy: "resource:io.mefy.pharmacy.Pharmacy#" + pharmacyID }, fields: { user: true, role: true } }, function (err, users) {
             // all the users against a pharmacy
 
+            console.log();
+
             //append those users to return objects
             joinUsers(users)
               .then(function (data) {
@@ -40,7 +42,7 @@ module.exports = function (Pharmacy) {
         });
       }
       else {
-        let err = 'Pharmacy with tradelicenseid doesnot exists !';
+        let err = 'Pharmacy with tradelicenseid does not exists !';
         cb(null, err);
       }
     })
@@ -51,6 +53,7 @@ module.exports = function (Pharmacy) {
   /**==============================================================================================**/
 
   function getUser(user) {
+    console.log("get user", user);
     return new Promise((resolve) => {
       const User = app.models.User;
       User.find({ where: { phoneNumber: user.user.split("#")[1] } }, function (err, detailUser) {
