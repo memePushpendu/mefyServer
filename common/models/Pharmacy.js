@@ -74,9 +74,9 @@ module.exports = function (Pharmacy) {
       sdata.name = duser.name;
       console.log("prev user", user);
       console.log("Get user", duser);
-      sdata.phoneNumber = user.toObject().user.split("#")[1];
-      sdata.role = user.toObject().role;
-      allusers.push(sdata);
+      // sdata.phoneNumber = user.toObject().user.split("#")[1];
+      // sdata.role = user.toObject().role;
+      allusers.push(user);
     }
     return await allusers;
   }
