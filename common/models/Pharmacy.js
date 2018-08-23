@@ -56,7 +56,7 @@ module.exports = function (Pharmacy) {
     console.log("get user", user);
     return new Promise((resolve) => {
       const User = app.models.User;
-      User.find({ where: { phoneNumber: user.user.split("#")[1] } }, function (err, detailUser) {
+      User.find({ where: { phoneNumber: user.user.phoneNumber } }, function (err, detailUser) {
         resolve(detailUser[0]);
       });
     })
