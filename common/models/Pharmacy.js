@@ -69,7 +69,7 @@ module.exports = function (Pharmacy) {
   async function appendUsers(users) {
     let allusers = [];
     for (const user of users) {
-      // let duser = await processUser(user.toObject());
+      let duser = await processUser(user.toObject());
       // let sdata = { name: '', phoneNumber: '', role: '', $class: 'io.mefy.pharmacy.User' };
       // sdata.name = duser.name;
       console.log("prev user", user);
