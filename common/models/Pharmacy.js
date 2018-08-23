@@ -72,6 +72,8 @@ module.exports = function (Pharmacy) {
       let duser = await processUser(user.toObject());
       let sdata = { name: '', phoneNumber: '', role: '', $class: 'io.mefy.pharmacy.User' };
       sdata.name = duser.name;
+      console.log("prev user", user);
+      console.log("Get user", duser);
       sdata.phoneNumber = user.toObject().user.split("#")[1];
       sdata.role = user.toObject().role;
       allusers.push(sdata);
