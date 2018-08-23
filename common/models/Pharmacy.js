@@ -62,9 +62,9 @@ module.exports = function (Pharmacy) {
     })
   }
 
-  // async function processUser(user) {
-  //   return await getUser(user);
-  // }
+  async function processUser(user) {
+    return await getUser(user);
+  }
 
   async function appendUsers(users) {
     let allusers = [];
